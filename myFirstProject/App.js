@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
 import { useState } from 'react';
 import { StyleSheet, 
   Text,
@@ -13,22 +13,31 @@ import { StyleSheet,
    ImageBackground,
  } from 'react-native';
 
+
 export default function App() {
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPasssword] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [fontsLoader] = useFonts({
+    'Roboto-Regular': require('./assets/images/fonts/Roboto-Regular.ttf'),
+    'Roboto-Medioum': require('./assets/images/fonts/Roboto-Medium.ttf')
+  })
 
   const nameHandler = (text) => setName(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPasssword(text);
+  
   const onLogin = () => {
-    Alert.alert("Credentials", '${name} + ${email} + ${password}');
+    Alert.alert("Credentials", `${name} + ${email} + ${password}`);
+    Keyboard.dismiss();
   };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-    
       <ImageBackground
       style={styles.image}
       source={require("./assets/images/background.jpg")}
@@ -36,28 +45,32 @@ export default function App() {
     <KeyboardAvoidingView 
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <View style={styles.block}>
+        <View style={{ ...styles.block, marginTop: isShowKeyboard ? 150 : 263 }}>
       <Text style={styles.title}>Registration</Text>
       <TextInput
       value={name}
       placeholder="Login"
       onChangeText={nameHandler}
+      onFocus={() => setIsShowKeyboard(true)}
       style={styles.input}
       />
       <TextInput
       value={email}
       placeholder="Email"
       onChangeText={emailHandler}
+      onFocus={() => setIsShowKeyboard(true)}
       style={styles.input}
       />
       <TextInput
       value={password}
       placeholder="Password"
       onChangeText={passwordHandler}
+      onFocus={() => setIsShowKeyboard(true)}
+      secureTextEntry={true}
       style={styles.input}
       />
       <View>
-      <TouchableOpacity style={styles.btn} activeOpacity={0.8}  onPres={onLogin}>
+      <TouchableOpacity style={styles.btn} activeOpacity={0.8}  onPress={onLogin}>
        <Text style={styles.btnTitle} >Sign in</Text>
       </TouchableOpacity>
       </View>
@@ -73,12 +86,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
     alignItems: "center",
   },
   block: {
@@ -86,8 +99,8 @@ const styles = StyleSheet.create({
     paddingTop: 92,
     marginHorizontal: 16,
     paddingHorizontal: 16,
-    width: 375,
-    height: 549,
+    width: 390,
+    height: 590,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     borderRadius: 25,
@@ -98,7 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: 33,
     textAlign: "center",
     fontSize: 30,
-    fontWeight: "500"
+    fontWeight: "500",
+    fontFamily: 'Roboto-Regular',
   },
   input: {
     marginRight:16,
@@ -115,6 +129,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: '#FF6C00',
     marginTop: 40,
+    marginHorizontal: 16,
     width: 345,
     height: 44,
     borderRadius: 100,
@@ -124,5 +139,6 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: '#FFFFFF',
     fontSize: '16',
+    fontFamily: "Roboto-Medium",
   }
 });
