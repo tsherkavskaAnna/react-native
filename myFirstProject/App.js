@@ -1,4 +1,5 @@
-import { useFonts } from 'expo-font';
+import { useFonts, Roboto_400Regular, Roboto_500Medium } from '@expo-google-fonts/roboto';
+import AppLoading from 'expo-app-loading';
 import { useState } from 'react';
 import { StyleSheet, 
   Text,
@@ -13,27 +14,29 @@ import { StyleSheet,
    ImageBackground,
  } from 'react-native';
 
-
 export default function App() {
-
+  const [fontsLoader] = useFonts({
+    Roboto_400Regular, Roboto_500Medium
+  })
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPasssword] = useState("");
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [fontsLoader] = useFonts({
-    'Roboto-Regular': require('./assets/images/fonts/Roboto-Regular.ttf'),
-    'Roboto-Medioum': require('./assets/images/fonts/Roboto-Medium.ttf')
-  })
+  const [isReady, setIsReady] = useState(false);
 
   const nameHandler = (text) => setName(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPasssword(text);
   
+  if(!fontsLoader) {
+    return <AppLoading/>
+  }
   const onLogin = () => {
     Alert.alert("Credentials", `${name} + ${email} + ${password}`);
     Keyboard.dismiss();
   };
-
+  
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
     fontWeight: "500",
-    fontFamily: 'Roboto-Regular',
+    fontFamily: 'Roboto_400Regular',
   },
   input: {
     marginRight:16,
@@ -139,6 +142,6 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: '#FFFFFF',
     fontSize: '16',
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto_500Medium",
   }
 });
