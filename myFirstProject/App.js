@@ -1,6 +1,6 @@
-import { useFonts, Roboto_400Regular, Roboto_500Medium } from '@expo-google-fonts/roboto';
-import AppLoading from 'expo-app-loading';
-import { useState } from 'react';
+import { useFonts, Roboto_700Bold, Roboto_500Medium } from '@expo-google-fonts/roboto';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback, useState } from 'react';
 import { StyleSheet, 
   Text,
    View, 
@@ -14,9 +14,11 @@ import { StyleSheet,
    ImageBackground,
  } from 'react-native';
 
+ SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [fontsLoader] = useFonts({
-    Roboto_400Regular, Roboto_500Medium
+    Roboto_700Bold, Roboto_500Medium
   })
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,8 +30,14 @@ export default function App() {
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPasssword(text);
   
+  const onLayotRootView = useCallback(async () => {
+    if (fontsLoader) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoader]);
+
   if(!fontsLoader) {
-    return <AppLoading/>
+    return null;
   }
   const onLogin = () => {
     Alert.alert("Credentials", `${name} + ${email} + ${password}`);
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
     fontWeight: "500",
-    fontFamily: 'Roboto_400Regular',
+    fontFamily: 'Roboto_700Bold',
   },
   input: {
     marginRight:16,
