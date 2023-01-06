@@ -1,17 +1,29 @@
 {
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.2.2",
+    "@expo/webpack-config": "^0.17.2",
+    "expo": "~47.0.9",
     "expo-app-loading": "^2.1.1",
     "expo-font": "~11.0.1",
     "expo-status-bar": "^1.4.2",
+    "metro-config": "^0.73.7",
     "react": "^18.1.0",
     "react-devtools": "^4.27.1",
     "react-dom": "^18.1.0",
-    "react-native": "^0.70.6",
-    "react-native-web": "^0.18.10",
-    "@expo/webpack-config": "^0.17.2"
+    "react-native": "^0.70.5",
+    "react-native-web": "^0.18.10"
   },
-  "overrides": {
-    "react-devtools-core": "~4.25.0"
-  }
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "babel-preset-expo": "^9.2.2"
+  },
+  "private": true
 }
